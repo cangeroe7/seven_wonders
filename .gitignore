@@ -1,0 +1,69 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+*.local
+
+# Testing
+coverage
+.nyc_output
+.vitest
+.vscode-test
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Environment files
+.env
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Tailwind and PostCSS
+tailwind.config.js
+postcss.config.js
+
+# Vite
+vite.config.ts
+.vite
+
+# npm cache and lock files
+package-lock.json
+.npm
+
+# Miscellaneous
+*.bak
+*.tmp
+*.seed
+*.pid
+*.pid.lock
+
+# Git-related files
+*.orig
