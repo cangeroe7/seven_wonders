@@ -5,5 +5,6 @@ export type Destination = {
   place: string;
   image: string;
   description: string;
-  coordinates?: [number, number]; // Optional field for longitude, latitude
+  shortDesc: string;
+  coordinates: [number, number]; // Optional field for longitude, latitude
 };

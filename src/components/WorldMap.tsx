@@ -1,55 +1,58 @@
-import React from "react";
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import React, { useState } from "react";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { destinations } from "../data/destinations";
-import worldMap from "../data/world_map.json"
-import { Link } from "react-router-dom";
+import worldMap from "../data/world_map.json";
+import MapMarkers from "./MapMarkers";
+import { Destination } from "../types";
+import PictureSection from "./PictureSection";
 
 const WorldMap: React.FC = () => {
-  return (
-    <div className="w-full lg:w-2/3">
-      <ComposableMap
-        projectionConfig={{ scale: 185, center: [15, 10] }}
-        className="rounded-md shadow-md"
-      >
-        <Geographies geography={worldMap}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                style={{
-                  default: {
-                    fill: "#E5E7EB",
-                    stroke: "#D1D5DB",
-                    pointerEvents: "none",
-                  },
-                }}
-              />
-            ))
-          }
-        </Geographies>
-        {destinations.map((destination) => (
-          <Marker
-            key={destination.id}
-            coordinates={destination.coordinates}
-          >
-            <Link
-              to={`/destination/${encodeURIComponent(destination.name.toLowerCase().replace(/\s+/g, '-'))}`}
-              className="cursor-pointer"
-            >            <circle r={6} fill="#FF5733" className="hover:fill-blue-500"/>
-              <text
-                textAnchor="middle"
-                y={-10}
-                className="text-sm text-gray-800 pointer-events-none"
-              >
-                {destination.name}
-              </text>
-            </Link>
-          </Marker>
-        ))}
-      </ComposableMap>
-    </div>
-  )
-}
+  const [hoveredDestination, setHoveredDestination] = useState<Destination>(destinations[0]);
 
-export default WorldMap
+  const handleMouseEnter = (destination: Destination) => {
+    setHoveredDestination(destination);
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row items-center justify-between gap-8 p-4">
+      <PictureSection
+        name={hoveredDestination.name}
+        description={hoveredDestination.shortDesc}
+        image={hoveredDestination.image}
+      />
+      <div className="w-full lg:w-2/3">
+
+        <ComposableMap
+          projectionConfig={{ scale: 180, center: [20, 10] }}
+          className="rounded-md shadow-md"
+        >
+          <Geographies geography={worldMap}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  style={{
+                    default: {
+                      fill: "#E5E7EB",
+                      stroke: "#D1D5DB",
+                      pointerEvents: "none",
+                    },
+                  }}
+                />
+              ))
+            }
+          </Geographies>
+          <MapMarkers
+            destinations={destinations}
+            selectedMarker={hoveredDestination.id}
+            onMarkerEnter={handleMouseEnter}
+          />
+        </ComposableMap>
+      </div>
+
+    </div>
+  );
+};
+
+export default WorldMap;
